@@ -12,13 +12,13 @@ import groovy.transform.Field
         hexValue: 0x0702,
     ],
     energyAttr : [
-        name: "Instantanous Energy Use",
+        name: "Accumulated Energy Used",
         hexString: "0000",
         hexValue: 0x0000,
         divisor: 10000,
     ],
     powerAttr : [
-        name: "Accumulated Power Used",
+        name: "Instantaneous Power Use",
         hexString: "0400",
         hexValue: 0x0400,
         divisor: 10,
