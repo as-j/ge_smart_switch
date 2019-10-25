@@ -1,9 +1,21 @@
 /*
     GE Smart Plug
-
 */
 
 import groovy.transform.Field
+
+@Field static Map zigbeeSwitch = [
+    cluster: [
+        name: "Switch Cluster",
+        hexString: "0006",
+        hexValue: 0x0006,
+    ],
+    onOffAttr : [
+        name: "On/Off",
+        hexString: "0000",
+        hexValue: 0x0000,
+    ],
+]
 
 @Field static Map zigbeeSimpleMonitoring = [
     cluster: [
@@ -83,6 +95,8 @@ metadata {
     capability "Outlet"
     capability "Switch"
 
+    command "resetEnergy"
+
     fingerprint profileId: "0104", inClusters: "0000,0003,0006,0B05,0702", manufacturer: "Jasco", model: "45853", deviceJoinName: "GE Smart Plug-In Switch"
     }
 
@@ -115,6 +129,13 @@ def parse(String description) {
     def size = descMap.size
 
     switch (cluster){
+        case zigbeeSwitch.cluster.hexString: //switch
+            switch (attrId) {
+                case zigbeeSwitch.onOffAttr.hexString:
+                    getSwitchResult(hexValue)
+                    break
+            }
+            break
         case zigbeeSimpleMonitoring.cluster.hexString:
             //if (hexValue) log.info "power cluster: ${cluster} ${attrId} encoding: ${encoding} size: ${size} value: ${hexValue} int: ${hexStrToSignedInt(hexValue)}"
             switch (attrId) {
@@ -148,9 +169,30 @@ private getPowerResult(hex){
 
 private getEnergyResult(hex){
     def value = hexStrToSignedInt(hex)
+    if (state.energyReset) {
+        state.energyReset = null
+        state.energyResetValue = value
+    }
+    if (state.energyResetValue) {
+        if (value < state.energyResetValue) {
+            state.energyResetValue = null
+        } else {
+            value -= state.energyResetValue
+        }
+    }
+
     value = value / zigbeeSimpleMonitoring.energyAttr.divisor
     def name = "energy"
     def unit = "kWh"
+    def descriptionText = "${device.displayName} ${name} is ${value}${unit}"
+    if (txtEnable) log.info "${descriptionText}"
+    sendEvent(name: name,value: value,descriptionText: descriptionText,unit: unit)
+}
+
+private getSwitchResult(hex){
+    def value = hexStrToSignedInt(hex) == 1 ? "on" : "off"
+    def name = "switch"
+    def unit = ""
     def descriptionText = "${device.displayName} ${name} is ${value}${unit}"
     if (txtEnable) log.info "${descriptionText}"
     sendEvent(name: name,value: value,descriptionText: descriptionText,unit: unit)
@@ -247,4 +289,10 @@ def updated() {
     log.warn "debug logging is: ${logEnable == true}"
     log.warn "description logging is: ${txtEnable == true}"
     if (logEnable) runIn(1800,logsOff) 
+}
+
+
+def resetEnergy() {
+    state.energyReset = true
+    return getReadings()
 }
