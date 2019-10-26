@@ -1,5 +1,8 @@
 /*
     GE Smart Plug
+    
+    Changes:
+        - 09/26/19 Update nname and fingerprint from @aruffell
 */
 
 import groovy.transform.Field
@@ -86,7 +89,7 @@ import groovy.transform.Field
 ]
 
 metadata {
-    definition (name: "GE Smart PlugIn Switch", namespace: "asj", author: "asj") {
+    definition (name: "GE/Jasco Smart Switch", namespace: "asj", author: "asj") {
     capability "Configuration"
     capability "Refresh"
     capability "PowerMeter"
@@ -96,8 +99,10 @@ metadata {
     capability "Switch"
 
     command "resetEnergy"
-
-    fingerprint profileId: "0104", inClusters: "0000,0003,0006,0B05,0702", manufacturer: "Jasco", model: "45853", deviceJoinName: "GE Smart Plug-In Switch"
+    
+    // GE/Jasco
+	fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0702, 0B05", outClusters: "0003, 000A, 0019", manufacturer: "Jasco", model: "45853", deviceJoinName: "GE ZigBee Plug-In Switch"
+	fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0702, 0B05", outClusters: "000A, 0019", manufacturer: "Jasco", model: "45856", deviceJoinName: "GE ZigBee In-Wall Switch"
     }
 
     preferences {
