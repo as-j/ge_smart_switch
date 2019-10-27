@@ -1,8 +1,9 @@
 /*
     GE Smart Plug
-    
+
     Changes:
         - 09/26/19 Update nname and fingerprint from @aruffell
+        - 09/27/19 Fix typo for reporting, and update fingerprint order, fix whitespace
 */
 
 import groovy.transform.Field
@@ -90,20 +91,19 @@ import groovy.transform.Field
 
 metadata {
     definition (name: "GE/Jasco Smart Switch", namespace: "asj", author: "asj") {
-    capability "Configuration"
-    capability "Refresh"
-    capability "PowerMeter"
-    capability "EnergyMeter"
-    capability "Sensor"
-    capability "Outlet"
-    capability "Switch"
+        capability "Configuration"
+        capability "Refresh"
+        capability "PowerMeter"
+        capability "EnergyMeter"
+        capability "Sensor"
+        capability "Outlet"
+        capability "Switch"
 
-    command "resetEnergy"
-    
-    // GE/Jasco
-    // GE/Jasco
-    fingerprint profileId: "0104", inClusters: "0000,0003,0004,0005,0006,0B05,0702", outClusters: "0003,000A,0019", manufacturer: "Jasco", model: "45853", deviceJoinName: "GE ZigBee Plug-In Switch"
-    fingerprint profileId: "0104", inClusters: "0000,0003,0004,0005,0006,0B05,0702", outClusters: "000A,0019", manufacturer: "Jasco", model: "45856", deviceJoinName: "GE ZigBee In-Wall Switch"
+        command "resetEnergy"
+
+        // GE/Jasco
+        fingerprint profileId: "0104", inClusters: "0000,0003,0004,0005,0006,0B05,0702", outClusters: "0003,000A,0019", manufacturer: "Jasco", model: "45853", deviceJoinName: "GE ZigBee Plug-In Switch"
+        fingerprint profileId: "0104", inClusters: "0000,0003,0004,0005,0006,0B05,0702", outClusters: "000A,0019", manufacturer: "Jasco", model: "45856", deviceJoinName: "GE ZigBee In-Wall Switch"
     }
 
     preferences {
