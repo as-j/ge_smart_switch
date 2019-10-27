@@ -103,7 +103,7 @@ metadata {
     // GE/Jasco
     // GE/Jasco
     fingerprint profileId: "0104", inClusters: "0000,0003,0004,0005,0006,0B05,0702", outClusters: "0003,000A,0019", manufacturer: "Jasco", model: "45853", deviceJoinName: "GE ZigBee Plug-In Switch"
-    fingerprint profileId: "0104", inClusters: "0000,0003,0004,0005,0006,0B05,0702", outClusters: "0003,000A,0019", manufacturer: "Jasco", model: "45856", deviceJoinName: "GE ZigBee In-Wall Switch"
+    fingerprint profileId: "0104", inClusters: "0000,0003,0004,0005,0006,0B05,0702", outClusters: "000A,0019", manufacturer: "Jasco", model: "45856", deviceJoinName: "GE ZigBee In-Wall Switch"
     }
 
     preferences {
