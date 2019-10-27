@@ -268,7 +268,7 @@ def configure() {
                                             DataType.UINT48, 
                                             5,
                                             getReportValue(energyReport),
-                                            getChangeValue(energyChange) * zigbeeSimpleMonitoring.EnergyAttr.divisor)
+                                            (getChangeValue(energyChange) * zigbeeSimpleMonitoring.energyAttr.divisor).toInteger())
     cmds = cmds + refresh()
     if (logEnabled) log.info "cmds:${cmds}"
     return cmds
