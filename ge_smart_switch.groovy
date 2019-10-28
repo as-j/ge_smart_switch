@@ -295,6 +295,7 @@ def updated() {
     log.warn "debug logging is: ${logEnable == true}"
     log.warn "description logging is: ${txtEnable == true}"
     if (logEnable) runIn(1800,logsOff) 
+    return configure()
 }
 
 
