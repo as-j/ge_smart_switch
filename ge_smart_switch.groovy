@@ -200,8 +200,8 @@ private getSwitchResult(hex){
     def name = "switch"
     def unit = ""
     def descriptionText = "${device.displayName} ${name} is ${value}${unit}"
-    if (txtEnable) log.info "${descriptionText}"
-    sendEvent(name: name,value: value,descriptionText: descriptionText,unit: unit)
+    if (txtEnable) log.info "${descriptionText} [physical]"
+    sendEvent(name: name,value: value,descriptionText: descriptionText,unit: unit, type: "physical")
 }
 
 private getChangeValue(change) {
@@ -230,10 +230,18 @@ private getReportValue(report) {
 
 //capability and device methods
 def off() {
+    def descriptionText = "switch is off [digital]"
+    if (txtEnable) log.info "${descriptionText}"
+    sendEvent(name: "switch",value: "off",descriptionText: descriptionText, type: "digital")
+
     zigbee.off()
 }
 
 def on() {
+    def descriptionText = "switch is on [digital]"
+    if (txtEnable) log.info "${descriptionText}"
+    sendEvent(name: "switch",value: "on",descriptionText: descriptionText, type: "digital")
+
     zigbee.on()
 }
 
@@ -256,7 +264,7 @@ def configure() {
     log.debug "Configuring Reporting and Bindings."
     runIn(1800,logsOff)
 
-    List cmds = []
+    List cmds = zigbee.onOffConfig()
     cmds = cmds + zigbee.configureReporting(zigbeeSimpleMonitoring.cluster.hexValue,
                                             zigbeeSimpleMonitoring.powerAttr.hexValue,
                                             DataType.INT24,
